@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaloriesCalculator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://raw.githubusercontent.com/sdbaronc/CaloriesCalculator/main/css/logo.png" height="50">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Change Calculator</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Recipes
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="recipes.html">Breakfast</a></li>
+                            <li><a class="dropdown-item" href="recipes.html">Lunch</a></li>
+                            <li><a class="dropdown-item" href="recipes.html">Dinner</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="recipes.html">More Recipes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class=" text-center mt-5 ">
+
+            <h1>Calories Per Item/Meal Calculator</h1>
+
+
+        </div>
+
+
+        <div class="row ">
+            <div class="col-lg-7 mx-auto">
+                <div class="card mt-2 mx-auto p-4 bg-light">
+                    <div class="card-body bg-light">
+
+                        <div class="container">
+                            <form id="calculator-form" role="form">
+
+
+
+                                <div class="controls">
+
+                                    <div class="row">
+
+
+
+                                        <div class="form-group">
+                                            <label for="cantidadGramos">Select Item *</label>
+                                            <select id="seleccionarAlimento" name="meal" class="form-control"
+                                                required="" data-error="Meal not Found">
+
+                                            </select>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="form_name">Grams *</label>
+                                                    <input id="cantidadGramos" type="number"  class="form-control" placeholder="Please enter grams *" required="" data-error="Grams is required.">
+                                                    
+                                                </div>
+                                            </div>
+                                            
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                </div>
+                        </div>
+
+
+
+                        <div class="col-md-12">
+                            <button onclick="agregarAlimento()" class="btn btn-success btn-send  pt-2 btn-block">Add Item</button>
+
+                            <button id="calculo" class="btn btn-success btn-send  pt-2 btn-block" onclick="calcularCalorias()">Calculate</button>
+
+                            <ul id="listaAlimentos"></ul>
+
+
+                        </div>
+                        <p>Total Calories: <span id="resultadoCalorias"></span></p>
+
+                    </div>
+
+
+                </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script>
+        const alimentos = [
+  {
+    "id": 1,
+    "alimento": "Olive oil - Aceite de oliva",
+    "calorias_por_100g": 884
+  },
+  {
+    "id": 2,
+    "alimento": "Avocados - Aguacates",
+    "calorias_por_100g": 160
+  },
+  {
+    "id": 3,
+    "alimento": "Garlic - Ajo",
+    "calorias_por_100g": 149
+  },
+  {
+    "id": 4,
+    "alimento": "Apricots - Albaricoques",
+    "calorias_por_100g": 48
+  },
+  {
+    "id": 5,
+    "alimento": "Artichokes (cooked) - Alcachofas (cocidas)",
+    "calorias_por_100g": 47
+  },
+  {
+    "id": 6,
+    "alimento": "Almonds - Almendras",
+    "calorias_por_100g": 576
+  },
+  {
+    "id": 7,
+    "alimento": "White rice - Arroz blanco",
+    "calorias_por_100g": 130
+  },
+  {
+    "id": 8,
+    "alimento": "Canned tuna (in water) - Atún enlatado (en agua)",
+    "calorias_por_100g": 89
+  },
+  {
+    "id": 9,
+    "alimento": "Sweet potatoes (cooked) - Batatas (cocidas)",
+    "calorias_por_100g": 86
+  },
+  {
+    "id": 10,
+    "alimento": "Eggplant - Berenjena",
+    "calorias_por_100g": 25
+  },
+  {
+    "id": 11,
+    "alimento": "Broccoli - Brócoli",
+    "calorias_por_100g": 34
+  },
+  {
+    "id": 12,
+    "alimento": "Raw shrimp - Camarones crudos",
+    "calorias_por_100g": 85
+  },
+  {
+    "id": 13,
+    "alimento": "Zucchini - Calabacín",
+    "calorias_por_100g": 17
+  },
+  {
+    "id": 14,
+    "alimento": "Pumpkin - Calabaza",
+    "calorias_por_100g": 26
+  },
+  {
+    "id": 15,
+    "alimento": "Cherries - Cerezas",
+    "calorias_por_100g": 50
+  },
+  {
+    "id": 16,
+    "alimento": "Dried cherries - Cerezas secas",
+    "calorias_por_100g": 325
+  },
+  {
+    "id": 17,
+    "alimento": "Green onions - Cebollas verdes",
+    "calorias_por_100g": 32
+  },
+  {
+    "id": 18,
+    "alimento": "Onions - Cebollas",
+    "calorias_por_100g": 40
+  },
+  {
+    "id": 19,
+    "alimento": "Cooked pork chop - Chuleta de cerdo cocida",
+    "calorias_por_100g": 143
+  },
+  {
+    "id": 20,
+    "alimento": "Kale - Col rizada",
+    "calorias_por_100g": 49
+  },
+  {
+    "id": 21,
+    "alimento": "Asparagus - Espárragos",
+    "calorias_por_100g": 20
+  },
+  {
+    "id": 22,
+    "alimento": "Spinach - Espinacas",
+    "calorias_por_100g": 23
+  },
+  {
+    "id": 23,
+    "alimento": "Strawberries - Fresas",
+    "calorias_por_100g": 32
+  },
+  {
+    "id": 24,
+    "alimento": "Cooked chickpeas - Garbanzos cocidos",
+    "calorias_por_100g": 164
+  },
+  {
+    "id": 25,
+    "alimento": "Green peas - Guisantes verdes",
+    "calorias_por_100g": 81
+  },
+  {
+    "id": 26,
+    "alimento": "Eggs - Huevos",
+    "calorias_por_100g": 155
+  },
+  {
+    "id": 27,
+    "alimento": "Lean ham - Jamón magro",
+    "calorias_por_100g": 135
+  },
+  {
+    "id": 28,
+    "alimento": "Kiwi - Kiwi",
+    "calorias_por_100g": 61
+  },
+  {
+    "id": 29,
+    "alimento": "Cooked lentils - Lentejas cocidas",
+    "calorias_por_100g": 116
+  },
+  {
+    "id": 30,
+    "alimento": "Lemons - Limones",
+    "calorias_por_100g": 29
+  },
+  {
+    "id": 31,
+    "alimento": "Corn - Maíz",
+    "calorias_por_100g": 86
+  },
+  {
+    "id": 32,
+    "alimento": "Mango - Mango",
+    "calorias_por_100g": 60
+  },
+  {
+    "id": 33,
+    "alimento": "Apples - Manzanas",
+    "calorias_por_100g": 52
+  },
+  {
+    "id": 34,
+    "alimento": "Mangosteen - Mangostán",
+    "calorias_por_100g": 73
+  },
+  {
+    "id": 35,
+    "alimento": "Molasses - Melaza",
+    "calorias_por_100g": 290
+  },
+  {
+    "id": 36,
+    "alimento": "Peaches - Melocotones",
+    "calorias_por_100g": 39
+  },
+  {
+    "id": 37,
+    "alimento": "Oranges - Naranjas",
+    "calorias_por_100g": 43
+  },
+  {
+    "id": 38,
+    "alimento": "Cooked red snapper - Pargo rojo cocido",
+    "calorias_por_100g": 105
+  },
+  {
+    "id": 39,
+    "alimento": "Pork feet - Patas de cerdo",
+    "calorias_por_100g": 143
+  },
+  {
+    "id": 40,
+    "alimento": "Lean ground turkey - Pavo molido magro",
+    "calorias_por_100g": 135
+  },
+  {
+    "id": 41,
+    "alimento": "Potatoes - Patatas",
+    "calorias_por_100g": 77
+  },
+  {
+    "id": 42,
+    "alimento": "Cooked chicken breast - Pechuga de pollo cocida",
+    "calorias_por_100g": 165
+  },
+  {
+    "id": 43,
+    "alimento": "Bell peppers - Pimientos",
+    "calorias_por_100g": 20
+  },
+  {
+    "id": 44,
+    "alimento": "Red bell peppers - Pimientos rojos",
+    "calorias_por_100g": 31
+  },
+  {
+    "id": 45,
+    "alimento": "Ratatouille - Ratatouille",
+    "calorias_por_100g": 36
+  },
+  {
+    "id": 46,
+    "alimento": "Pistachios - Pistachos",
+    "calorias_por_100g": 562
+  },
+  {
+    "id": 47,
+    "alimento": "Bananas - Plátanos",
+    "calorias_por_100g": 89
+  },
+  {
+    "id": 48,
+    "alimento": "Roasted chicken (skinless) - Pollo asado (sin piel)",
+    "calorias_por_100g": 165
+  },
+  {
+    "id": 49,
+    "alimento": "Grapefruits - Pomelos",
+    "calorias_por_100g": 33
+  },
+  {
+    "id": 50,
+    "alimento": "Leeks - Puerros",
+    "calorias_por_100g": 61
+  },
+  {
+    "id": 51,
+    "alimento": "Cooked quinoa - Quinua cocida",
+    "calorias_por_100g": 120
+  },
+  {
+    "id": 52,
+    "alimento": "Smoked salmon - Salmón ahumado",
+    "calorias_por_100g": 117
+  },
+  {
+    "id": 53,
+    "alimento": "Cooked salmon - Salmón cocido",
+    "calorias_por_100g": 206
+  },
+  {
+    "id": 54,
+    "alimento": "Tamarind - Tamarindo",
+    "calorias_por_100g": 239
+  },
+  {
+    "id": 55,
+    "alimento": "Lean ground beef - Ternera molida magra",
+    "calorias_por_100g": 250
+  },
+  {
+    "id": 56,
+    "alimento": "Tomatoes - Tomates",
+    "calorias_por_100g": 18
+  },
+  {
+    "id": 57,
+    "alimento": "Tofu - Tofu",
+    "calorias_por_100g": 144
+  },
+  {
+    "id": 58,
+    "alimento": "Cooked rainbow trout - Trucha arcoíris cocida",
+    "calorias_por_100g": 119
+  },
+  {
+    "id": 59,
+    "alimento": "Grapes - Uvas",
+    "calorias_por_100g": 69
+  },
+  {
+    "id": 60,
+    "alimento": "Low-fat plain yogurt - Yogur natural bajo en grasa",
+    "calorias_por_100g": 61
+  },
+  {
+    "id": 61,
+    "alimento": "Carrots - Zanahorias",
+    "calorias_por_100g": 41
+  },
+  {
+    "id": 62,
+    "alimento": "Cooked chickpeas - Garbanzos cocidos",
+    "calorias_por_100g": 164
+  },
+  {
+    "id": 63,
+    "alimento": "Plums - Ciruelas",
+    "calorias_por_100g": 46
+  },
+  {
+    "id": 64,
+    "alimento": "Honey - Miel",
+    "calorias_por_100g": 304
+  },
+  {
+    "id": 65,
+    "alimento": "Pears - Peras",
+    "calorias_por_100g": 57
+  },
+  {
+    "id": 66,
+    "alimento": "Watermelon - Sandía",
+    "calorias_por_100g": 30
+  },
+  {
+    "id": 67,
+    "alimento": "Sun-dried tomatoes - Tomates secos al sol",
+    "calorias_por_100g": 258
+  },
+  {
+    "id": 68,
+    "alimento": "Figs - Higos",
+    "calorias_por_100g": 74
+  },
+  {
+    "id": 69,
+    "alimento": "Cinnamon powder - Canela en polvo",
+    "calorias_por_100g": 247
+  },
+  {
+    "id": 70,
+    "alimento": "Hummus - Hummus",
+    "calorias_por_100g": 177
+  },
+  {
+    "id": 71,
+    "alimento": "Nutmeg - Nuez moscada",
+    "calorias_por_100g": 525
+  },
+  {
+    "id": 72,
+    "alimento": "Peanuts - Maní",
+    "calorias_por_100g": 567
+  },
+  {
+    "id": 73,
+    "alimento": "Cooked lobster - Langosta cocida",
+    "calorias_por_100g": 90
+  },
+  {
+    "id": 74,
+    "alimento": "Cheddar cheese - Queso cheddar",
+    "calorias_por_100g": 403
+  },
+  {
+    "id": 75,
+    "alimento": "Canned salmon (in oil) - Salmón enlatado (en aceite)",
+    "calorias_por_100g": 206
+  },
+  {
+    "id": 76,
+    "alimento": "Green olives - Aceitunas verdes",
+    "calorias_por_100g": 115
+  },
+  {
+    "id": 77,
+    "alimento": "Black olives - Aceitunas negras",
+    "calorias_por_100g": 115
+  },
+  {
+    "id": 78,
+    "alimento": "Dark chocolate (70-85% cocoa) - Chocolate negro (70-85% de cacao)",
+    "calorias_por_100g": 604
+  },
+  {
+    "id": 79,
+    "alimento": "Green tea - Té verde",
+    "calorias_por_100g": 1
+  },
+  {
+    "id": 80,
+    "alimento": "Peanut butter - Mantequilla de cacahuete",
+    "calorias_por_100g": 588
+  },
+  {
+    "id": 81,
+    "alimento": "Sun-dried tomatoes in oil - Tomates secos al sol en aceite",
+    "calorias_por_100g": 227
+  },
+  {
+    "id": 82,
+    "alimento": "Frozen spinach - Espinacas congeladas",
+    "calorias_por_100g": 23
+  },
+  {
+    "id": 83,
+    "alimento": "Butter - Mantequilla",
+    "calorias_por_100g": 717
+  },
+  {
+    "id": 84,
+    "alimento": "Strawberry jam - Mermelada de fresa",
+    "calorias_por_100g": 250
+  },
+  {
+    "id": 85,
+    "alimento": "Raw cabbage - Col cruda",
+    "calorias_por_100g": 25
+  },
+  {
+    "id": 86,
+    "alimento": "Bacon - Tocino",
+    "calorias_por_100g": 42
+  },
+  {
+    "id": 87,
+    "alimento": "Fried chicken - Pollo frito",
+    "calorias_por_100g": 208
+  },
+  {
+    "id": 88,
+    "alimento": "Ham - Jamón",
+    "calorias_por_100g": 165
+  },
+  {
+    "id": 89,
+    "alimento": "Cooked pasta - Pasta cocida",
+    "calorias_por_100g": 131
+  },
+  {
+    "id": 90,
+    "alimento": "Cheese pizza - Pizza de queso",
+    "calorias_por_100g": 285
+  },
+  {
+    "id": 91,
+    "alimento": "Blueberries - Arándanos",
+    "calorias_por_100g": 39
+  },
+  {
+    "id": 92,
+    "alimento": "Pistachios (without shell) - Pistachos (sin cáscara)",
+    "calorias_por_100g": 562
+  },
+  {
+    "id": 93,
+    "alimento": "Beer - Cerveza",
+    "calorias_por_100g": 43
+  },
+  {
+    "id": 94,
+    "alimento": "Red wine - Vino tinto",
+    "calorias_por_100g": 83
+  },
+  {
+    "id": 95,
+    "alimento": "Mushrooms - Champiñones",
+    "calorias_por_100g": 22
+  },
+  {
+    "id": 96,
+    "alimento": "Bell pepper - Pimiento",
+    "calorias_por_100g": 20
+  },
+  {
+    "id": 97,
+    "alimento": "Green olives stuffed with anchovies - Aceitunas verdes rellenas de anchoas",
+    "calorias_por_100g": 90
+  },
+  {
+    "id": 98,
+    "alimento": "Quail eggs - Huevos de codorniz",
+    "calorias_por_100g": 158
+  },
+  {
+    "id": 99,
+    "alimento": "Black tea - Té negro",
+    "calorias_por_100g": 1
+  },
+  {
+    "id": 100,
+    "alimento": "Swiss chard - Acelga",
+    "calorias_por_100g": 19
+  }
+]
+        var selectAlimento = document.getElementById("seleccionarAlimento");
+        var inputGramos = document.getElementById("cantidadGramos");
+        var listaAlimentos = document.getElementById("listaAlimentos");
+        var resultadoCalorias = document.getElementById("resultadoCalorias");
+
+        alimentos.forEach(function(alimento) {
+            var option = document.createElement("option");
+            option.value = alimento.id;
+            option.text = alimento.alimento;
+            selectAlimento.appendChild(option);
+        });
+
+        var alimentosSeleccionados = [];
+
+        function agregarAlimento() {
+            var idAlimentoSeleccionado = selectAlimento.value;
+            var cantidadGramos = parseFloat(inputGramos.value);
+
+            var alimentoSeleccionado = alimentos.find(function(alimento) {
+                return alimento.id == idAlimentoSeleccionado;
+            });
+
+            if (alimentoSeleccionado && !isNaN(cantidadGramos) && cantidadGramos > 0) {
+                alimentosSeleccionados.push({
+                    id: alimentoSeleccionado.id,
+                    alimento: alimentoSeleccionado.alimento,
+                    caloriasPorPorcion: (cantidadGramos / 100) * alimentoSeleccionado.calorias_por_100g
+                });
+
+                // Agregar el alimento a la lista visible
+                var li = document.createElement("li");
+                li.textContent = alimentoSeleccionado.alimento + " (" + cantidadGramos + " g)";
+                listaAlimentos.appendChild(li);
+
+                // Limpiar los campos después de agregar
+                selectAlimento.value = "";
+                inputGramos.value = "";
+            }
+        }
+
+        function calcularCalorias() {
+            var totalCalorias = 0;
+
+            // Sumar las calorías de los alimentos seleccionados
+            alimentosSeleccionados.forEach(function(alimento) {
+                totalCalorias += alimento.caloriasPorPorcion;
+            });
+
+            resultadoCalorias.textContent = totalCalorias.toFixed(2) + " calorías";
+        }
+    </script>
+</body>
+
+</html>
